@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { signInUserSchema } from "@/utils/schema";
 import {
   Card,
   CardContent,
@@ -35,6 +36,17 @@ const SignIn = () => {
       return;
     }
 
+    const validateUser = signInUserSchema.safeParse(userinfo);
+    if (!validateUser.success) {
+      toast({
+        title: "Invalid Fields",
+        description: validateUser.error.errors[0].message,
+        variant: "destructive"
+      });
+      setloader(false);
+      return;
+    }
+
   };
   return (
     <div className="flex justify-center items-center w-full h-screen">
@@ -55,7 +67,7 @@ const SignIn = () => {
           ) : (
             <Input
               onChange={(e) =>
-                  setuserinfo((prev) => ({ ...prev, email: e.target.value }))
+                setuserinfo((prev) => ({ ...prev, email: e.target.value }))
               }
               type="text"
               placeholder="Email"

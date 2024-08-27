@@ -50,7 +50,17 @@ model Events {
   user        User     @relation(fields: [userId], references: [id])
   eventName   String
   eventDate   DateTime
+  eventVenue  String
   isUpcomming Boolean
-  Guests      Int
+  Guests      Guests[]
   createdAt   DateTime @default(now())
+}
+
+model Guests {
+  id      String  @id @default(cuid())
+  eventId String
+  event   Events  @relation(fields: [eventId], references: [id])
+  guestName String
+  guestMobile String
+  guestEmail  String
 }

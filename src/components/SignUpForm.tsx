@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { signUpUserSchema } from "@/utils/schema";
+import axios from "axios"
 import {
     Card,
     CardContent,
@@ -16,12 +18,13 @@ import { useToast } from "./ui/use-toast";
 const SignUp = () => {
     const { toast } = useToast();
     const [userinfo, setuserinfo] = useState({
-        name:"",
+        name: "",
         email: "",
         number: "",
         password: "",
     });
     const [loader, setloader] = useState(false);
+
     const signUpUser = async () => {
         setloader(true);
         if (userinfo.email === "" || userinfo.password === "" || userinfo.name === "" || userinfo.number === "") {
@@ -33,6 +36,27 @@ const SignUp = () => {
             setloader(false);
             return;
         }
+        // Add zod validations  here
+        const validateUser = signUpUserSchema.safeParse(userinfo);
+        if (!validateUser.success) {
+            toast({
+                title: "Invalid Fields",
+                description: validateUser.error.errors[0].message,
+                variant: "destructive"
+            });
+            setloader(false);
+            return;
+        }
+
+        axios.post('/api/signup', userinfo)
+            .then(res => {
+                console.log(res.data)
+                toast({
+                    title: "User Created",
+                    description: res.data.message
+                });
+                setloader(false);
+            })
     };
 
     return (
