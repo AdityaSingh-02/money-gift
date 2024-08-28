@@ -1,27 +1,54 @@
 import PrismaInstanceSingleton from "@/db";
 import { NextRequest, NextResponse } from "next/server";
 import { signUpUserSchema } from "@/utils/schema";
+import bcrypt from "bcrypt"
+import jwt from "jsonwebtoken"
+import { JWT_SECRET } from "@/lib/config";
+import { cookies } from "next/headers";
 
 export async function POST(req: NextRequest) {
     const body = await req.json();
     // Add backend validations
     // const validateUser = signUpUserSchema.safeParse(body);
+
+    const hashedPassword = await bcrypt.hash(body.password, 10);
     const prisma = PrismaInstanceSingleton.getPrismaInstance();
     try {
         const user = await prisma.user.create({
             data: {
                 email: body.email,
-                password: body.password,
+                password: hashedPassword,
                 name: body.name,
                 mobile: body.mobile,
                 city: body.city,
             }
         });
         if (user) {
+            const token = jwt.sign(
+                {
+                    id: user.id,
+                    email: user.email,
+                    name: user.name,
+                    mobile: user.mobile,
+                    city: user.city,
+                },
+                JWT_SECRET
+            );
+            const setcookie = cookies().set("token", token, {
+                sameSite: "strict",
+            });
+            if (setcookie) {
+                return NextResponse.json({
+                    status: 200,
+                    body: {
+                        message: "User created successfully"
+                    }
+                });
+            }
             return NextResponse.json({
-                status: 200,
+                status: 403,
                 body: {
-                    message: "User created successfully"
+                    message: "Unable to create user"
                 }
             })
         }
