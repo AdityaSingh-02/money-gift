@@ -32,16 +32,6 @@ const SignIn = () => {
 
   const loginuser = async () => {
     setloader(true);
-    if (userinfo.email === "" || userinfo.password === "") {
-      toast({
-        title: "Empty Fields",
-        description: "Please fill all the fields to sign in to your account!",
-        variant: "destructive"
-      });
-      setloader(false);
-      return;
-    }
-
     const validateUser = signInUserSchema.safeParse(userinfo);
     if (!validateUser.success) {
       toast({
@@ -55,11 +45,20 @@ const SignIn = () => {
 
     axios.post("/api/signin", userinfo)
       .then(res => {
-        localStorage.setItem("gift-app-token", res.data.body.data);
-        toast({
-          title: "User Logged in successfully",
-        });
-        router.push("/dashboard");
+        console.log(res)
+        if (res.data.status === 200) {
+          localStorage.setItem("gift-app-token", res.data.body.data);
+          toast({
+            title: "User Logged in successfully",
+          });
+          router.push("/dashboard");
+        } else {
+          toast({
+            title: "Invalid credentials",
+            variant: "destructive"
+          });
+          setloader(false);
+        }
       })
   };
   return (

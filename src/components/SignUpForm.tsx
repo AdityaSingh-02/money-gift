@@ -29,18 +29,8 @@ const SignUp = () => {
         password: "",
     });
     const [loader, setloader] = useState(false);
-    const dispatch = useAppDispatch();
     const signUpUser = async () => {
         setloader(true);
-        if (userinfo.email === "" || userinfo.password === "" || userinfo.name === "" || userinfo.mobile === "" || userinfo.city === "") {
-            toast({
-                title: "Empty Fields",
-                description: "Please fill all the fields to sign in to your account!",
-                variant: "destructive"
-            });
-            setloader(false);
-            return;
-        }
         // Add zod validations  here
         const validateUser = signUpUserSchema.safeParse(userinfo);
         if (!validateUser.success) {
@@ -55,13 +45,15 @@ const SignUp = () => {
 
         axios.post('/api/signup', userinfo)
             .then(res => {
-                console.log(res.data.body.data);
-                localStorage.setItem("gift-app-token", res.data.body.data);
-                toast({
-                    title: "User Created",
-                });
-                router.push('/dashboard');
-                setloader(false);
+                if (res.data.status === 200) {
+                    localStorage.setItem("gift-app-token", res.data.body.data);
+                    toast({
+                        title: "User Created",
+                    });
+                    router.push('/dashboard');
+                } else {
+                    setloader(false);
+                }
             })
     };
 

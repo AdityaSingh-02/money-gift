@@ -1,10 +1,8 @@
 import PrismaInstanceSingleton from "@/db";
 import { NextRequest, NextResponse } from "next/server";
-import { signUpUserSchema } from "@/utils/schema";
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import { JWT_SECRET } from "@/lib/config";
-import { cookies } from "next/headers";
 
 export async function POST(req: NextRequest) {
     const body = await req.json();
