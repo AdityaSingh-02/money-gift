@@ -33,7 +33,14 @@ export async function POST(req: Request, res: NextResponse) {
                     return NextResponse.json({
                         status: 200,
                         body: {
-                            message: "User Logged in successfully"
+                            message: "User Logged in successfully",
+                            data: {
+                                id: checkUser.id,
+                                email: checkUser.email,
+                                name: checkUser.name,
+                                mobile: checkUser.mobile,
+                                city: checkUser.city,
+                            }
                         }
                     });
                 }

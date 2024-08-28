@@ -14,9 +14,15 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
 import { useToast } from "@/components/ui/use-toast";
+import axios from "axios";
+import { useAppDispatch } from "@/store/hooks";
+import { setUser } from "@/store/slices/user";
+import { useRouter } from "next/navigation";
 
 const SignIn = () => {
   const { toast } = useToast();
+  const dispatch = useAppDispatch();
+  const router = useRouter();
   const [userinfo, setuserinfo] = useState({
     email: "",
     password: "",
@@ -47,6 +53,14 @@ const SignIn = () => {
       return;
     }
 
+    axios.post("/api/signin", userinfo)
+      .then(res => {
+        dispatch(setUser(res.data.body.data));
+        toast({
+          title: "User Logged in successfully",
+        });
+        router.push("/dashboard");
+      })
   };
   return (
     <div className="flex justify-center items-center w-full h-screen">

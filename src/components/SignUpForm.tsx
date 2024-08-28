@@ -14,20 +14,24 @@ import {
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "./ui/use-toast";
+import { setUser } from "@/store/slices/user";
+import { useRouter } from "next/navigation";
 
 const SignUp = () => {
     const { toast } = useToast();
+    const router = useRouter();
     const [userinfo, setuserinfo] = useState({
         name: "",
         email: "",
-        number: "",
+        mobile: "",
+        city: "",
         password: "",
     });
     const [loader, setloader] = useState(false);
 
     const signUpUser = async () => {
         setloader(true);
-        if (userinfo.email === "" || userinfo.password === "" || userinfo.name === "" || userinfo.number === "") {
+        if (userinfo.email === "" || userinfo.password === "" || userinfo.name === "" || userinfo.mobile === "" || userinfo.city === "") {
             toast({
                 title: "Empty Fields",
                 description: "Please fill all the fields to sign in to your account!",
@@ -50,11 +54,10 @@ const SignUp = () => {
 
         axios.post('/api/signup', userinfo)
             .then(res => {
-                console.log(res.data)
                 toast({
                     title: "User Created",
-                    description: res.data.message
                 });
+                router.push('/dashboard');
                 setloader(false);
             })
     };
@@ -107,10 +110,24 @@ const SignUp = () => {
                     ) : (
                         <Input
                             onChange={(e) =>
-                                setuserinfo((prev) => ({ ...prev, number: e.target.value }))
+                                setuserinfo((prev) => ({ ...prev, mobile: e.target.value }))
                             }
                             type="text"
-                            placeholder="Number"
+                            placeholder="Mobile Number"
+                        />
+                    )}
+                </CardContent>
+                {/* City */}
+                <CardContent>
+                    {loader ? (
+                        <Skeleton className="w-full h-[30px]" />
+                    ) : (
+                        <Input
+                            onChange={(e) =>
+                                setuserinfo((prev) => ({ ...prev, city: e.target.value }))
+                            }
+                            type="text"
+                            placeholder="City"
                         />
                     )}
                 </CardContent>
