@@ -34,31 +34,20 @@ export async function POST(req: NextRequest) {
                 },
                 JWT_SECRET
             );
-            const setcookie = cookies().set("token", token, {
-                sameSite: "strict",
-            });
-            if (setcookie) {
-                return NextResponse.json({
-                    status: 200,
-                    body: {
-                        message: "User created successfully",
-                        data: {
-                            id: user.id,
-                            email: user.email,
-                            name: user.name,
-                            mobile: user.mobile,
-                            city: user.city,
-                        }
-                    }
-                });
-            }
             return NextResponse.json({
-                status: 403,
+                status: 200,
                 body: {
-                    message: "Unable to create user"
+                    message: "User created successfully",
+                    data: token
                 }
-            })
+            });
         }
+        return NextResponse.json({
+            status: 403,
+            body: {
+                message: "Unable to create user"
+            }
+        })
     } catch (error) {
         console.error(error);
         return NextResponse.json({

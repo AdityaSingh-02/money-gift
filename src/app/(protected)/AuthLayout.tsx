@@ -1,9 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { useRouter } from "next/navigation";
-import getCookies from "@/utils/getCookie";
-import { setUser } from "@/store/slices/user";
+// import { clientCookie } from "@/utils/clientCookie";
+import { useAppSelector } from "@/store/hooks";
 
 
 export default function AuthLayout({
@@ -12,11 +11,11 @@ export default function AuthLayout({
     children: React.ReactNode;
 }) {
     const router = useRouter();
-    const dispatch = useAppDispatch();
-    getCookies().then(res => {
-        if(res)dispatch(setUser(res));
-        else router.push("/createuser");
-    });
-
+    useEffect(() => {
+        const token = localStorage.getItem("gift-app-token");
+        if (token === null) {
+            router.push("/");
+        }
+    })
     return <>{children}</>;
 }

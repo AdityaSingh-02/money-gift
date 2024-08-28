@@ -16,6 +16,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "./ui/use-toast";
 import { setUser } from "@/store/slices/user";
 import { useRouter } from "next/navigation";
+import { useAppDispatch } from "@/store/hooks";
 
 const SignUp = () => {
     const { toast } = useToast();
@@ -28,7 +29,7 @@ const SignUp = () => {
         password: "",
     });
     const [loader, setloader] = useState(false);
-
+    const dispatch = useAppDispatch();
     const signUpUser = async () => {
         setloader(true);
         if (userinfo.email === "" || userinfo.password === "" || userinfo.name === "" || userinfo.mobile === "" || userinfo.city === "") {
@@ -54,6 +55,8 @@ const SignUp = () => {
 
         axios.post('/api/signup', userinfo)
             .then(res => {
+                console.log(res.data.body.data);
+                localStorage.setItem("gift-app-token", res.data.body.data);
                 toast({
                     title: "User Created",
                 });

@@ -28,29 +28,20 @@ export async function POST(req: Request, res: NextResponse) {
                     },
                     JWT_SECRET
                 );
-                const setcookie = cookies().set("token", token);
-                if (setcookie) {
-                    return NextResponse.json({
-                        status: 200,
-                        body: {
-                            message: "User Logged in successfully",
-                            data: {
-                                id: checkUser.id,
-                                email: checkUser.email,
-                                name: checkUser.name,
-                                mobile: checkUser.mobile,
-                                city: checkUser.city,
-                            }
-                        }
-                    });
-                }
                 return NextResponse.json({
-                    status: 403,
+                    status: 200,
                     body: {
-                        message: "Error While logging in"
+                        message: "User Logged in successfully",
+                        data: token
                     }
                 });
             }
+            return NextResponse.json({
+                status: 403,
+                body: {
+                    message: "Error While logging in"
+                }
+            });
         }
 
     } catch (error) {

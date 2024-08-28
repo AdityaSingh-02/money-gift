@@ -55,7 +55,7 @@ const SignIn = () => {
 
     axios.post("/api/signin", userinfo)
       .then(res => {
-        dispatch(setUser(res.data.body.data));
+        localStorage.setItem("gift-app-token", res.data.body.data);
         toast({
           title: "User Logged in successfully",
         });
