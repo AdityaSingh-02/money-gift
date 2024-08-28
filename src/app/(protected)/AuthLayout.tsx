@@ -15,7 +15,7 @@ export default function AuthLayout({
     const dispatch = useAppDispatch();
     getCookies().then(res => {
         if(res)dispatch(setUser(res));
-        else router.push("/signin");
+        else router.push("/createuser");
     });
 
     return <>{children}</>;
