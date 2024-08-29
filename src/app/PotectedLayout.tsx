@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import { Provider } from "react-redux";
 import { store } from "@/store/store";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 export default function ProtectedLayout({
     children,
@@ -10,13 +10,15 @@ export default function ProtectedLayout({
     children: React.ReactNode;
 }) {
     const router = useRouter();
-    
+    const pathName = usePathname();
+
     useEffect(() => {
         const token = localStorage.getItem("gift-app-token");
         if (token !== null) {
-            router.push("/dashboard");
+            const path = pathName.split("/")[1];
+            path !== 'dashboard' && router.push("/dashboard");
         }
-    })
+    }, [])
 
     return <>
         <Provider store={store}>

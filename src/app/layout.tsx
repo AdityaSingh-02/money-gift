@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import ProtectedLayout from "./PotectedLayout";
+import { ThemeProvider } from "next-themes";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,11 +19,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} bg-gray-800 text-gray-50`}>
-        <ProtectedLayout>
-          {children}
-        </ProtectedLayout>
-        <Toaster />
+      <body>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <ProtectedLayout>
+            {children}
+          </ProtectedLayout>
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   );
