@@ -9,6 +9,7 @@ import { CreateEventDialog } from '@/components/CreateEventDialog';
 import axios from 'axios';
 import { useToast } from '@/components/ui/use-toast';
 import Link from 'next/link';
+import { USERID } from '@/cache/constants';
 
 const DashBoard = () => {
   const userState = useAppSelector(state => state.user)
@@ -38,7 +39,7 @@ const DashBoard = () => {
     }
     axios.post("/api/event/create", payload)
       .then(res => {
-        if(res.data.status === 200){
+        if (res.data.status === 200) {
           toast({
             title: "Event created successfully",
           });
@@ -50,6 +51,8 @@ const DashBoard = () => {
     const resolve = async () => {
       const tkn = localStorage.getItem("gift-app-token");
       const res = await getClientData(tkn!);
+      // @ts-ignore
+      USERID.set(res.data?.id);
       dispatch(setUser(res.data));
     }
     resolve();
