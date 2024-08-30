@@ -65,7 +65,7 @@ const DashBoard = () => {
         <div className='flex space-x-6 p-10'>
           <CreateEventDialog onClick={handleClick} />
           <Link href={"/dashboard/events"}><Button>Manage Events</Button></Link>
-          
+          <Link href={"/dashboard/transactions"}><Button>See Contributions</Button></Link>
           <Button onClick={signout}>Sign Out</Button>
         </div>
       </div>
