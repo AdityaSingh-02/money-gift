@@ -5,7 +5,6 @@ import { NextRequest, NextResponse } from "next/server"
 export async function POST(req: NextRequest) {
     const params = await req.json();
     const { id } = params;
-    console.log(params);
     const prisma = PrismaInstanceSingleton.getPrismaInstance();
     try {
         const events = await prisma.events.findMany({

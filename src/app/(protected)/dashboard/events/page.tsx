@@ -1,7 +1,7 @@
 "use client"
 import Card from '@/components/Card'
 import React, { useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import axios from 'axios'
 import { useAppSelector } from '@/store/hooks'
 import { USERID } from '@/cache/constants'
@@ -16,9 +16,12 @@ interface IEvents {
   createdAt: string;
 }
 
-const page = () => {
+const Events = () => {
+
+  const router = useRouter();
+  const path = usePathname();
   const handleClick = (event: any) => {
-    console.log(event);
+    router.push(`/dashboard/events/${event}`)
   }
 
   const [eventMap, setEventMap] = React.useState<IEvents[]>([]);
@@ -48,85 +51,4 @@ const page = () => {
   )
 }
 
-export default page
-
-const events = [
-  {
-    eventName: "Event 1",
-    eventDate: "12/12/2021",
-    eventVenue: "Lagos",
-    id: "adsfsdf"
-  },
-  {
-    eventName: "Event 2",
-    eventDate: "12/12/2021",
-    eventVenue: "Lagos",
-    id: "adsfsdf"
-  },
-  {
-    eventName: "Event 3",
-    eventDate: "12/12/2021",
-    eventVenue: "Lagos",
-    id: "adsfsdf"
-  },
-  {
-    eventName: "Event 4",
-    eventDate: "12/12/2021",
-    eventVenue: "Lagos",
-    id: "adsfsdf"
-  },
-  {
-    eventName: "Event 5",
-    eventDate: "12/12/2021",
-    eventVenue: "Lagos",
-    id: "adsfsdf"
-  },
-  {
-    eventName: "Event 6",
-    eventDate: "12/12/2021",
-    eventVenue: "Lagos",
-    id: "adsfsdf"
-  },
-  {
-    eventName: "Event 7",
-    eventDate: "12/12/2021",
-    eventVenue: "Lagos",
-    id: "adsfsdf"
-  },
-  {
-    eventName: "Event 8",
-    eventDate: "12/12/2021",
-    eventVenue: "Lagos",
-    id: "adsfsdf"
-  },
-  {
-    eventName: "Event 9",
-    eventDate: "12/12/2021",
-    eventVenue: "Lagos",
-    id: "adsfsdf"
-  },
-  {
-    eventName: "Event 10",
-    eventDate: "12/12/2021",
-    eventVenue: "Lagos",
-    id: "adsfsdf"
-  },
-  {
-    eventName: "Event 10",
-    eventDate: "12/12/2021",
-    eventVenue: "Lagos",
-    id: "adsfsdf"
-  },
-  {
-    eventName: "Event 10",
-    eventDate: "12/12/2021",
-    eventVenue: "Lagos",
-    id: "adsfsdf"
-  },
-  {
-    eventName: "Event 10",
-    eventDate: "12/12/2021",
-    eventVenue: "Lagos",
-    id: "adsfsdf"
-  },
-]
+export default Events
