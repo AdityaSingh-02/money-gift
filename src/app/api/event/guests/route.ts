@@ -2,35 +2,35 @@ import PrismaInstanceSingleton from "@/db";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-    const { id } = await req.json();
+    const { eventId } = await req.json();
     const prisma = PrismaInstanceSingleton.getPrismaInstance();
     try {
-        const eventData = await prisma.events.findUnique({
+        const guests = await prisma.guests.findMany({
             where: {
-                id
+                eventId
             }
-        });
+        })
 
-        if (!eventData) {
+        if (!guests) {
             return NextResponse.json({
                 status: 404,
                 body: {
-                    message: "Event not found"
+                    message: "Guests not found"
                 }
             })
         }
         return NextResponse.json({
             status: 200,
             body: {
-                message: "Event found",
-                data: eventData
+                message: "Guests found",
+                data: guests
             }
         })
     } catch (error) {
         return NextResponse.json({
-            status: 403,
+            status: 500,
             body: {
-                message: "Error while fetching"
+                message: "Internal Server Error"
             }
         })
     }

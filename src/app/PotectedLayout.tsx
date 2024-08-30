@@ -16,7 +16,8 @@ export default function ProtectedLayout({
         const token = localStorage.getItem("gift-app-token");
         if (token !== null) {
             const path = pathName.split("/")[1];
-            path !== 'dashboard' && router.push("/dashboard");
+            if(path === '' || path === 'createuser') router.push("/dashboard");
+            // path !== 'dashboard' && router.push("/dashboard");
         }
     }, [])
 
