@@ -1,15 +1,15 @@
-import { transation } from "@/lib/transaction";
+import { transactionFromAdmin } from "@/lib/transactionFromAdmin";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-    const { adminId, guestId, amount } = await req.json();
+    const { amount, adminId, to } = await req.json();
     try {
-        const sender = await transation(adminId, guestId, parseInt(amount));
+        const res = await transactionFromAdmin(adminId, to, parseInt(amount));
         return NextResponse.json({
-            status: 200,
+            status: res.status,
             body: {
-                message: "Gift sent",
-                data: sender
+                message: res.body.message,
+                data: res.body
             }
         });
     } catch (error) {

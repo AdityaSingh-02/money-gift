@@ -15,16 +15,6 @@ import { Input } from "@/components/ui/input"
 
 export function MakePaymentDialog({ setAmount, email, mobile, name, onClick }: { setAmount: any, email: string, mobile: string, name: string, onClick: () => void }) {
 
-    // const findUser = async (e: any) => {
-    //     if (data.email === "") return;
-    //     axios.post("/api/event/getuser", { email: data.email })
-    //         .then(res => {
-    //             if (res.data.status === 200) {
-    //                 setGuestData((prev: any) => ({ ...prev, name: res.data.body.data.name, email: res.data.body.data.email, mobile: res.data.body.data.mobile }))
-    //             }
-    //         })
-    // }
-
     return (
         <div className="text-black">
             <Dialog>

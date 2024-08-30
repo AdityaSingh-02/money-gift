@@ -77,7 +77,7 @@ const page = () => {
           <div className='flex h-screen justify-center items-center'>
             <div className='bg-gray-900 rounded-lg h-[80%] w-[70%] flex pt-10 flex-col space-y-4 items-start overflow-scroll'>
               {guestList.map((guest: IGuest, index: number) => (
-                <GuestListCard key={index} id={guest.id} guestEmail={guest.guestEmail} guestMobile={guest.guestMobile} guestName={guest.guestName} onClick={() => { console.log(guest.id) }} />
+                <GuestListCard key={index} id={guest.id} guestEmail={guest.guestEmail} guestMobile={guest.guestMobile} guestName={guest.guestName} />
               ))}
             </div>
           </div>
