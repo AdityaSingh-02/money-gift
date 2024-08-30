@@ -39,11 +39,22 @@ CREATE TABLE "Events" (
     "userId" TEXT NOT NULL,
     "eventName" TEXT NOT NULL,
     "eventDate" TIMESTAMP(3) NOT NULL,
+    "eventVenue" TEXT NOT NULL,
     "isUpcomming" BOOLEAN NOT NULL,
-    "Guests" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Events_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Guests" (
+    "id" TEXT NOT NULL,
+    "eventId" TEXT NOT NULL,
+    "guestName" TEXT NOT NULL,
+    "guestMobile" TEXT NOT NULL,
+    "guestEmail" TEXT NOT NULL,
+
+    CONSTRAINT "Guests_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -60,3 +71,6 @@ ALTER TABLE "GiftReceived" ADD CONSTRAINT "GiftReceived_userId_fkey" FOREIGN KEY
 
 -- AddForeignKey
 ALTER TABLE "Events" ADD CONSTRAINT "Events_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Guests" ADD CONSTRAINT "Guests_eventId_fkey" FOREIGN KEY ("eventId") REFERENCES "Events"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
