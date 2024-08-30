@@ -2,7 +2,7 @@ import PrismaInstanceSingleton from "@/db";
 
 const prisma = PrismaInstanceSingleton.getPrismaInstance();
 export const transactionFromAdmin = async (adminId: string, to: string, amount: number) => {
-    return await prisma.$transaction(async (txn) => {
+    return await prisma.$transaction(async (txn: any) => {
         const admin = await txn.user.findFirst({
             where: {
                 id: adminId
