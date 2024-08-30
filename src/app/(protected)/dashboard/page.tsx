@@ -62,8 +62,12 @@ const DashBoard = () => {
     <>
       <div>
         <h1 className='text-2xl'>Welcome, Let's Create and Manage events</h1>
-        <CreateEventDialog onClick={handleClick} />
-        <Link href={"/dashboard/events"}><Button>Manage Events</Button></Link>
+        <div className='flex space-x-6 p-10'>
+          <CreateEventDialog onClick={handleClick} />
+          <Link href={"/dashboard/events"}><Button>Manage Events</Button></Link>
+          
+          <Button onClick={signout}>Sign Out</Button>
+        </div>
       </div>
     </>
   )
