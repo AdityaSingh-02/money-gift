@@ -4,10 +4,8 @@ import { usePathname } from 'next/navigation'
 import axios from 'axios';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { setEventDetails } from '@/store/slices/unique';
-import { Button } from '@/components/ui/button';
 import { AddGuestDialog } from '@/components/AddGuest';
 import { useToast } from '@/components/ui/use-toast';
-import Card from '@/components/Card';
 import GuestListCard from '@/components/GuestList';
 
 interface IGuest {
@@ -17,7 +15,7 @@ interface IGuest {
   guestMobile: string;
 }
 
-const page = () => {
+const EventSlug = () => {
   const path = usePathname();
   const p = path.split("/")[3];
 
@@ -87,4 +85,4 @@ const page = () => {
   )
 }
 
-export default page
+export default EventSlug

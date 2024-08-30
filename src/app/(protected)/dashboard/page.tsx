@@ -61,7 +61,7 @@ const DashBoard = () => {
   return (
     <>
       <div>
-        <h1 className='text-2xl'>Welcome, Let's Create and Manage events</h1>
+        <h1 className='text-2xl'>Welcome, Let us Create and Manage events</h1>
         <div className='flex space-x-6 p-10'>
           <CreateEventDialog onClick={handleClick} />
           <Link href={"/dashboard/events"}><Button>Manage Events</Button></Link>

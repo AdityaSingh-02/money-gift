@@ -22,7 +22,8 @@ export default function AuthLayout({
                 router.push("/");
             }
             const res = await getClientData(token!);
-            USERID.set(res.data?.id);
+            // @ts-ignore
+            USERID.set(res.data.id);
             dispatch(setUser(res.data));
         }
         resolve();
