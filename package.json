@@ -10,7 +10,7 @@
     "postinstall": "npx prisma generate"
   },
   "prisma": {
-    "schema": "src/db/schema.prisma"
+    "schema": "./src/db/schema.prisma"
   },
   "dependencies": {
     "@prisma/client": "^5.18.0",
