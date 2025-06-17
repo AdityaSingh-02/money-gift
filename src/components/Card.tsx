@@ -19,7 +19,7 @@ const Card = ({ eventTitle, eventDate, onClick, isHeader = false }: IProps) => {
   return (
     <>
       <div className="w-[80%] mx-auto py-3 px-5 rounded-2xl bg-gray-700">
-        <div className="flex space-x-3 items-center justify-between">
+        <div className="space-x-3 items-center grid grid-cols-4">
           <h1 className="text-lg font-bold">{eventTitle}</h1>
           <h1 className="text-lg">{timeFormat}</h1>
           {isHeader ? (

@@ -10,6 +10,7 @@ import axios from "axios";
 import { useToast } from "@/components/ui/use-toast";
 import Link from "next/link";
 import { USERID } from "@/cache/constants";
+import { format } from "date-fns";
 
 const DashBoard = () => {
   const userState = useAppSelector((state) => state.user);
@@ -27,7 +28,8 @@ const DashBoard = () => {
     if (
       eventState.eventName === "" ||
       eventState.date === "" ||
-      eventState.eventVenue === ""
+      eventState.eventVenue === "" ||
+      eventState.eventTime === ""
     ) {
       toast({
         title: "Invalid Fields",
@@ -38,7 +40,7 @@ const DashBoard = () => {
     const payload = {
       userId: userState.id,
       eventName: eventState.eventName,
-      date: eventState.date,
+      date: `${eventState.date}, ${eventState.eventTime}`,
       eventVenue: eventState.eventVenue,
     };
     axios.post("/api/event/create", payload).then((res) => {
