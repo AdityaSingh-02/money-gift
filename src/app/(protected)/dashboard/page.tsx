@@ -1,19 +1,19 @@
-"use client"
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { setUser } from '@/store/slices/user';
-import { getClientData } from '@/utils/getClientData';
-import React, { useEffect } from 'react'
-import { useRouter } from 'next/navigation';
-import { Button } from '@/components/ui/button';
-import { CreateEventDialog } from '@/components/CreateEventDialog';
-import axios from 'axios';
-import { useToast } from '@/components/ui/use-toast';
-import Link from 'next/link';
-import { USERID } from '@/cache/constants';
+"use client";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { setUser } from "@/store/slices/user";
+import { getClientData } from "@/utils/getClientData";
+import React, { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { CreateEventDialog } from "@/components/CreateEventDialog";
+import axios from "axios";
+import { useToast } from "@/components/ui/use-toast";
+import Link from "next/link";
+import { USERID } from "@/cache/constants";
 
 const DashBoard = () => {
-  const userState = useAppSelector(state => state.user)
-  const eventState = useAppSelector(state => state.event)
+  const userState = useAppSelector((state) => state.user);
+  const eventState = useAppSelector((state) => state.event);
   const dispatch = useAppDispatch();
   const router = useRouter();
   const { toast } = useToast();
@@ -21,13 +21,17 @@ const DashBoard = () => {
   const signout = () => {
     localStorage.removeItem("gift-app-token");
     router.push("/");
-  }
+  };
 
   const handleClick = () => {
-    if (eventState.eventName === "" || eventState.date === "" || eventState.eventVenue === "") {
+    if (
+      eventState.eventName === "" ||
+      eventState.date === "" ||
+      eventState.eventVenue === ""
+    ) {
       toast({
         title: "Invalid Fields",
-        variant: "destructive"
+        variant: "destructive",
       });
       return;
     }
@@ -35,17 +39,16 @@ const DashBoard = () => {
       userId: userState.id,
       eventName: eventState.eventName,
       date: eventState.date,
-      eventVenue: eventState.eventVenue
-    }
-    axios.post("/api/event/create", payload)
-      .then(res => {
-        if (res.data.status === 200) {
-          toast({
-            title: "Event created successfully",
-          });
-        }
-      })
-  }
+      eventVenue: eventState.eventVenue,
+    };
+    axios.post("/api/event/create", payload).then((res) => {
+      if (res.data.status === 200) {
+        toast({
+          title: "Event created successfully",
+        });
+      }
+    });
+  };
 
   useEffect(() => {
     const resolve = async () => {
@@ -54,23 +57,33 @@ const DashBoard = () => {
       // @ts-ignore
       USERID.set(res.data?.id);
       dispatch(setUser(res.data));
-    }
+    };
     resolve();
-  }, [])
+  }, []);
 
   return (
     <>
-      <div>
-        <h1 className='text-2xl'>Welcome, Let us Create and Manage events</h1>
-        <div className='flex space-x-6 p-10'>
-          <CreateEventDialog onClick={handleClick} />
-          <Link href={"/dashboard/events"}><Button>Manage Events</Button></Link>
-          <Link href={"/dashboard/transactions"}><Button>See Contributions</Button></Link>
-          <Button onClick={signout}>Sign Out</Button>
+      <div className="flex flex-col space-y-4 p-4 h-screen w-screen">
+        <div className="flex space-x-6 p-10 justify-end">
+          <span className="flex flex-row space-x-5">
+            <Link href={"/dashboard/transactions"}>
+              <Button>See Contributions</Button>
+            </Link>
+            <Button onClick={signout}>Sign Out</Button>
+          </span>
+        </div>
+        <div className="flex flex-col juctify-center items-center space-y-2">
+          <h1 className="text-4xl">Manage all your events at a single place</h1>
+          <span className="items-center flex space-x-6 p-6">
+            <CreateEventDialog onClick={handleClick} />
+            <Link href={"/dashboard/events"}>
+              <Button>Manage Events</Button>
+            </Link>
+          </span>
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default DashBoard
+export default DashBoard;
